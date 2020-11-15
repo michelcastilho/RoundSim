@@ -1,208 +1,273 @@
-str = document.getElementById('player1').value,
-player1 = str,
-//document.getElementById("player1").innerHTML = player1;
+var sfxHit = new Audio('hit.wav');
 
-str = document.getElementById('life1').value,
-life1 = Number(str),
+stats = function() {
 
-str = document.getElementById('def1').value,
-def1 = Number(str),
+    str = document.getElementById('player1').value,
+    player1 = str,
 
-str = document.getElementById('initbonus1').value,
-initBonus1 = Number(str),
+    str = document.getElementById('life1').value,
+    initlife1 = Number(str),
 
-str = document.getElementById('bonus1').value,
-bonus1 = Number(str),
+    str = document.getElementById('def1').value,
+    def1 = 10 + Number(str),
 
-str = document.getElementById('dmg1').value,
-dmgDice1 = Number(str),
+    str = document.getElementById('initbonus1').value,
+    initBonus1 = Number(str),
 
-str = document.getElementById('dmgbonus1').value,
-dmgBonus1 = Number(str),
+    str = document.getElementById('bonus1').value,
+    bonus1 = Number(str),
+
+    str = document.getElementById('dmg1').value,
+    dmgDice1 = Number(str),
+
+    str = document.getElementById('dmgbonus1').value,
+    dmgBonus1 = Number(str),
+
+    /////
+
+    str = document.getElementById('player2').value,
+    player2 = str,
+
+    str = document.getElementById('life2').value,
+    initlife2 = Number(str),
+
+    str = document.getElementById('def2').value,
+    def2 = 10 + Number(str),
+
+    str = document.getElementById('initbonus2').value,
+    initBonus2 = Number(str),
+
+    str = document.getElementById('bonus2').value,
+    bonus2 = Number(str),
+
+    str = document.getElementById('dmg2').value,
+    dmgDice2 = Number(str),
+
+    str = document.getElementById('dmgbonus2').value,
+    dmgBonus2 = Number(str)
+
+}
+
+
 
 rollInit1 = function () {
-    var randomNumber = Math.floor(Math.random() * 20) + 1 + initBonus1;
-    log.innerHTML += '<p>'+player1+' rola iniciativa: '+randomNumber+'';
+    randomNumber = (Math.floor(Math.random() * 20) + 1) + initBonus1;
     return randomNumber;
 }
 
 rollAtk1 = function () {
-    var randomNumber = Math.floor(Math.random() * 20) + 1;
+    randomNumber = Math.floor(Math.random() * 20) + 1;
     return randomNumber;
 }
 
 rollDmg1 = function () {
-    var randomNumber = Math.floor(Math.random() * this.dmgDice1) + 1;
+    randomNumber = Math.floor(Math.random() * this.dmgDice1) + 1;
     return randomNumber;
 }
 
 p1atk = function () {
-    rollAtk1 = rollAtk1();
-    atk1 = rollAtk1 + bonus1;
-    log.innerHTML += '<p>'+player1+' ataca '+atk1+' ('+rollAtk1+' + '+bonus1+')<br>Defesa '+player2+': '+def2+'</p>';
+    rollatk1 = rollAtk1();
+    atk1 = rollatk1 + bonus1;
+    addlog += '<p>'+player1+' attacks '+atk1+' ('+rollatk1+' + '+bonus1+')<br>'+player2+' Defense: '+def2+'</p>';
     if (atk1 > def2) {
-        rollDmg1 = rollDmg1();
-        dmg1 = rollDmg1 + dmgBonus1,
-        life2 -= dmg1,
-        log.innerHTML += '<p>'+player1+' acertou '+player2+' causando '+dmg1+' ('+rollDmg1+' + '+dmgBonus1+') de dano';
+        rolldmg1 = rollDmg1();
+        dmg1 = rolldmg1 + dmgBonus1;
+        life2 -= dmg1;
+        addlog += '<p id="hit">'+player1+' hits '+player2+' dealing '+dmg1+' ('+rolldmg1+' + '+dmgBonus1+') damage</p>';
+        sfxHit.play();
     } else {
-        log.innerHTML += '<p>'+player1+' errou '+player2+'<p>'
+        addlog += '<p id="miss">'+player1+' misses '+player2+'</p>';
     }
 }
 
 ///////////////////
 
-str = document.getElementById('player2').value,
-player2 = str,
-
-str = document.getElementById('life2').value,
-life2 = Number(str),
-
-str = document.getElementById('def2').value,
-def2 = Number(str),
-
-str = document.getElementById('initbonus2').value,
-initBonus2 = Number(str),
-
-str = document.getElementById('bonus2').value,
-bonus2 = Number(str),
-
-str = document.getElementById('dmg2').value,
-dmgDice2 = Number(str),
-
-str = document.getElementById('dmgbonus2').value,
-dmgBonus2 = Number(str),
-
 rollInit2 = function () {
-    var randomNumber = Math.floor(Math.random() * 20) + 1 + initBonus2;
-    log.innerHTML += '<p>'+player2+' rola iniciativa: '+randomNumber+'';
+    randomNumber = (Math.floor(Math.random() * 20) + 1) + initBonus2;
     return randomNumber;
 }
 
 rollAtk2 = function () {
-    var randomNumber = Math.floor(Math.random() * 20) + 1;
+    randomNumber = Math.floor(Math.random() * 20) + 1;
     return randomNumber;
 }
 
 rollDmg2 = function () {
-    var randomNumber = Math.floor(Math.random() * this.dmgDice2) + 1;
+    randomNumber = Math.floor(Math.random() * this.dmgDice2) + 1;
     return randomNumber;
 }
 
 p2atk = function () {
-    log.innerHTML += '<div id="p2">';
-    rollAtk2 = rollAtk2();
-    atk2 = rollAtk2 + bonus2;
-    log.innerHTML += '<p>'+player2+' ataca '+atk2+' ('+rollAtk2+' + '+bonus2+')<br>Defesa '+player1+': '+def1+'</p>';
+    rollatk2 = rollAtk2();
+    atk2 = rollatk2 + bonus2;
+    addlog += '<p>'+player2+' attacks '+atk2+' ('+rollatk2+' + '+bonus2+')<br>'+player1+' Defense: '+def1+'</p>';
     if (atk2 > def1) {
-        rollDmg2 = rollDmg2();
-        dmg2 = rollDmg2 + dmgBonus2,
+        rolldmg2 = rollDmg2();
+        dmg2 = rolldmg2 + dmgBonus2,
         life1 -= dmg2,
-        log.innerHTML += '<p>'+player2+' acertou '+player1+' causando '+dmg2+' ('+rollDmg2+' + '+dmgBonus2+') de dano';
+        addlog += '<p id="hit">'+player2+' hits '+player1+' dealing '+dmg2+' ('+rolldmg2+' + '+dmgBonus2+') damage</p>';
+        sfxHit.play();
     } else {
-        log.innerHTML += '<p>'+player2+' errou '+player1+'<p>';
+        addlog += '<p id="miss">'+player2+' misses '+player1+'</p>';
     }
 }
 
 rollInit = function () {
+
     init1 = rollInit1();
+    log.innerHTML += '<p>'+player1+' rolls for initiative: '+randomNumber+'</p>';
     init2 = rollInit2();
+    log.innerHTML += '<p>'+player2+' rolls for initiative: '+randomNumber+'</p>';
+
     if (init1 > init2) {
+        log.innerHTML += '<p>'+player1+' is first</p>';
         return 1
     }
+
     if (init1 < init2) {
+        log.innerHTML += '<p>'+player2+' is first</p>';
         return 2
     }
+
     if (init1 == init2) {
+
         if (initBonus1 > initBonus2) {
+            log.innerHTML += '<p>'+player1+' is first</p>';
             return 1
-        } else if (initBonus1 < initBonus2) {
+        }
+        
+        else if (initBonus1 < initBonus2) {
+            log.innerHTML += '<p>'+player2+' is first</p>';
             return 2
         }
+
         else if (initBonus1 == initBonus2) {
             return Math.floor(Math.random() * 2) + 1
         }
-    }
+    }        
+        
 }
+
+death = false;
 
 logpv = function() {
-    log.innerHTML += '<p>P1: '+life1+'pv<br>P2: '+life2+'pv</p>';
+    life1perc = Math.floor((life1 / initlife1) * 100);
+    life2perc = Math.floor((life2 / initlife2) * 100);
+    document.getElementById("sopa1").style.width = life1perc+'%';
+    document.getElementById("sopa2").style.width = life2perc+'%';
+    document.getElementById("perc1").innerHTML = life1perc+'%';
+    document.getElementById("perc2").innerHTML = life2perc+'%';
+    addlog += '<p>'+player1+' '+life1+'hp<br>'+player2+' '+life2+'hp</p>';
+    if (life1 <= 0) {
+        addlog += '<p>'+player1+' has been defeated</p>';
+        document.getElementById("sopa1").style.width = '0%';
+        document.getElementById("perc1").innerHTML = '0%';
+        death = true;
+        return true
+    }
+    if (life2 <= 0) {
+        addlog += '<p>'+player2+' has been defeated</p>';
+        document.getElementById("sopa2").style.width = '0%';
+        document.getElementById("perc2").innerHTML = '0%';
+        death = true;
+        return true
+    }
+    return false
 }
 
-round = function() {
+roundcount = 1;
 
-    log.innerHTML += '<p>Batalha começa</p>';
+round = function() {  
 
-    logpv();
-
-    init = rollInit();
-
-    log.innerHTML += ''+init+'';
+    addlog += '<p class="title">Round starts</p>';
 
     if (init == 1) {
-        log.innerHTML += '<p>'+player1+' começa</p>';
-        do {
-            log.innerHTML += '<p>Round começa</p>';
-            log = document.getElementById('log');
 
-            log.innerHTML += '<div id="p1">';
-            p1atk();
-            if (life2 <= 0) {
-                log.innerHTML += '<p>'+player2+' foi derrotado</p>';
-                return;
-            }
-            log.innerHTML += '</div>';
-            log.innerHTML += '<div id="life">';
-            logpv();
-            log.innerHTML += '</div>';
+        p1atk();
 
-            
-            p2atk();
-            if (life1 <= 0) {
-                log.innerHTML += '<p>'+player1+' foi derrotado</p>';
-                return;
-            }
-            log.innerHTML += '</div>';
-            log.innerHTML += '<div id="life">';
-            logpv();
-            log.innerHTML += '</div>';
-            
-        }
-        while (life1 > 0 && life2 > 0);
+        if (logpv()) {
+            return
+        };
+        
+        p2atk();
+
+        if (logpv()) {
+            return
+        };
+
     } else if (init > 1) {
-        log.innerHTML += '<p>'+player2+' começa</p>';
-        do {
-            log = document.getElementById('log');
+        
 
-            log.innerHTML += '<div id="p2">';
-            p2atk();
-            if (life1 <= 0) {
-                log.innerHTML += '<p>'+player1+' foi derrotado</p>';
-                return;
-            }
-            log.innerHTML += '</div>';
-            log.innerHTML += '<div id="life">';
-            logpv();
-            log.innerHTML += '</div>';
+        p2atk();   
 
-            log.innerHTML += '<div id="p1">';
-            p1atk();
-            if (life2 <= 0) {
-                log.innerHTML += '<p>'+player2+' foi derrotado</p>';
-                return;
-            }
-            log.innerHTML += '</div>';
-            log.innerHTML += '<div id="life">';
-            logpv();
-            log.innerHTML += '</div>';
+        if (logpv()) {
             
+        };
 
-        }
-        while (life1 > 0 && life2 > 0);
+        p1atk();
+
+        if (logpv()) {
+            
+        };           
+
     }
+
 }
 
 button.onclick = function() {
-  
-  round()
+
+    stats();
+
+    addlog = '<div id="round">';
+
+    if (death == true) {    
+        document.getElementById("log").innerHTML = '';
+        death = false;
+        life1 = initlife1;
+        life2 = initlife2;
+        var buttonText = "Battle!";      
+        document.getElementById("button").innerHTML = buttonText;
+        life1perc = 100;
+        life2perc = 100;
+        document.getElementById("sopa1").style.width = life1perc+'%';
+        document.getElementById("sopa2").style.width = life2perc+'%';
+        document.getElementById("perc1").innerHTML = life1perc+'%';
+        document.getElementById("perc2").innerHTML = life2perc+'%';
+        document.getElementById("life1").disabled = false;
+        document.getElementById("life2").disabled = false;
+        roundcount = 1;
+        return
+    }
+
+    log = document.getElementById('log');
+
+
+    if (roundcount == 1) {
+        log.innerHTML += '<p class="title">Battle starts</p>';
+
+        init = rollInit();
+        life1 = initlife1;
+        life2 = initlife2;
+        document.getElementById("life1").disabled = true;
+        document.getElementById("life2").disabled = true;
+
+        //log.innerHTML += '<p>'+init+'</p>';
+    }
+
+    roundcount++; 
+
+    round();
+
+    addlog += '</div>';
+
+    log.innerHTML += addlog;
+
+    if (death == true) {
+        var buttonText = "New Battle!";      
+        document.getElementById("button").innerHTML = buttonText;
+    }
+
+    log.scrollTop = log.scrollHeight;
+
 }
+

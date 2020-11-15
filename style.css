@@ -3,6 +3,58 @@
   text-align: center;
 }
 
+#log {
+  height: 100%;
+  overflow: scroll;
+}
+
+#round {
+  border-radius: 20px;
+  border-style: hidden;
+  padding: 10px;
+  margin: 20px;
+}
+
+.title {
+  font-size: 24px;
+  padding: 5px;
+  margin: 0px;
+  font-weight: bolder;
+}
+
+#hit {
+  color: red;
+  font-weight: bold;
+}
+
+#sopa1 {
+  background-color: green;
+  width: 100%;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  float: center;
+}
+
+#sopa2 {
+  background-color: green;
+  width: 100%;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  float: center;
+}
+
+#perc1 {
+  text-align: center;
+  float: center;
+}
+
+#miss {
+  color: green;
+  font-weight: bold;
+}
+
 button {
   background-color: rgb(82, 186, 179);
   border-radius: 6px;
@@ -13,22 +65,38 @@ button {
   width: 200px;
   cursor: pointer;
 }
-#placeholder {
-  height: 100px;
-  width: 100px;
-  padding: 50px;
-  margin: 50px auto;
-  border: 1px solid gray;
-  border-radius: 10px;  
-  font-size:80px;
+
+.wrapper {
+  height: 85vh;
+  max-height: 85vh;
+}
+
+.stats {
+  padding: 30px;
 }
 
 .column {
   float: left;
-  width: 33%;
+  width: 25%;
+  min-width: 25%;
+  background-color: thistle;
+  height: 100%;
+  align-items: left;
+  text-align: left;
+}
+
+.column input {
+  float: right;
+}
+
+.logcolumn {
+  float: left;
+  width: 49%;
+  height: 100%;
 }
 
 /* Clear floats after the columns */
+
 .row:after {
   content: "";
   display: table;
