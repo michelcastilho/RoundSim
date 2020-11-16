@@ -1,4 +1,7 @@
 var sfxHit = new Audio('hit.wav');
+var sfxDeath = new Audio('death.wav');
+var sfxOof = new Audio('oof.wav');
+var sfxWoosh = new Audio('woosh.wav');
 
 stats = function() {
 
@@ -75,6 +78,7 @@ p1atk = function () {
         life2 -= dmg1;
         addlog += '<p id="hit">'+player1+' hits '+player2+' dealing '+dmg1+' ('+rolldmg1+' + '+dmgBonus1+') damage</p>';
         sfxHit.play();
+        sfxOof.play();
     } else {
         addlog += '<p id="miss">'+player1+' misses '+player2+'</p>';
     }
@@ -107,6 +111,7 @@ p2atk = function () {
         life1 -= dmg2,
         addlog += '<p id="hit">'+player2+' hits '+player1+' dealing '+dmg2+' ('+rolldmg2+' + '+dmgBonus2+') damage</p>';
         sfxHit.play();
+        sfxOof.play();
     } else {
         addlog += '<p id="miss">'+player2+' misses '+player1+'</p>';
     }
@@ -153,16 +158,26 @@ death = false;
 logpv = function() {
     life1perc = Math.floor((life1 / initlife1) * 100);
     life2perc = Math.floor((life2 / initlife2) * 100);
+
     document.getElementById("sopa1").style.width = life1perc+'%';
     document.getElementById("sopa2").style.width = life2perc+'%';
-    document.getElementById("perc1").innerHTML = life1perc+'%';
-    document.getElementById("perc2").innerHTML = life2perc+'%';
+
+    document.getElementById("perc1").innerHTML = life1perc+'% ('+life1+'/'+initlife1+')';
+    document.getElementById("perc2").innerHTML = life2perc+'% ('+life2+'/'+initlife2+')';
+
+    perc1color = perctocolor(life1perc);
+    perc2color = perctocolor(life2perc);
+    //addlog += ''+perc1color+' / '+perc2color+'';
+    document.getElementById("sopa1").style.background = perc1color;
+    document.getElementById("sopa2").style.background = perc2color;
+
     addlog += '<p>'+player1+' '+life1+'hp<br>'+player2+' '+life2+'hp</p>';
     if (life1 <= 0) {
         addlog += '<p>'+player1+' has been defeated</p>';
         document.getElementById("sopa1").style.width = '0%';
         document.getElementById("perc1").innerHTML = '0%';
         death = true;
+        sfxDeath.play();
         return true
     }
     if (life2 <= 0) {
@@ -170,6 +185,7 @@ logpv = function() {
         document.getElementById("sopa2").style.width = '0%';
         document.getElementById("perc2").innerHTML = '0%';
         death = true;
+        sfxDeath.play();
         return true
     }
     return false
@@ -185,13 +201,13 @@ round = function() {
 
         p1atk();
 
-        if (logpv()) {
+        if (logpv() == true) {
             return
         };
         
         p2atk();
 
-        if (logpv()) {
+        if (logpv() == true) {
             return
         };
 
@@ -200,18 +216,32 @@ round = function() {
 
         p2atk();   
 
-        if (logpv()) {
-            
+        if (logpv() == true) {
+            return
         };
 
         p1atk();
 
-        if (logpv()) {
-            
+        if (logpv() == true) {
+            return
         };           
 
     }
 
+}
+
+function perctocolor(perc) {
+	var r, g, b = 0;
+	if(perc < 50) {
+		r = 255;
+		g = Math.round(5.1 * perc);
+	}
+	else {
+		g = 255;
+		r = Math.round(510 - 5.10 * perc);
+	}
+	var h = r * 0x10000 + g * 0x100 + b * 0x1;
+	return '#' + ('000000' + h.toString(16)).slice(-6);
 }
 
 button.onclick = function() {
@@ -231,8 +261,13 @@ button.onclick = function() {
         life2perc = 100;
         document.getElementById("sopa1").style.width = life1perc+'%';
         document.getElementById("sopa2").style.width = life2perc+'%';
-        document.getElementById("perc1").innerHTML = life1perc+'%';
-        document.getElementById("perc2").innerHTML = life2perc+'%';
+        document.getElementById("perc1").innerHTML = life1perc+'% ('+life1+'/'+initlife1+')';
+        document.getElementById("perc2").innerHTML = life2perc+'% ('+life2+'/'+initlife2+')';
+        perc1color = perctocolor(life1perc);
+        perc2color = perctocolor(life2perc);
+        //addlog += ''+perc1color+' / '+perc2color+'';
+        document.getElementById("sopa1").style.background = perc1color;
+        document.getElementById("sopa2").style.background = perc2color;
         document.getElementById("life1").disabled = false;
         document.getElementById("life2").disabled = false;
         roundcount = 1;
